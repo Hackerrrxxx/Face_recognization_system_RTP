@@ -100,7 +100,7 @@ def generate_dataset_popup():
 
                 cv2.imshow("Cropped face", face)
 
-            if cv2.waitKey(1) == 13 or int(img_id) == 200:  # Enter key or 200 images
+            if cv2.waitKey(1) == 13 or int(img_id) == 500:  # Enter key or 200 images
                 break
 
         cap.release()
@@ -108,7 +108,7 @@ def generate_dataset_popup():
         messagebox.showinfo('Result', 'Generating dataset completed!!')
         popup.destroy()
 
-    b1 = tk.Button(popup, text="Generate Dataset", font=("Arial", 14), bg="#1c92d2", fg="white", bd=3, relief=tk.RAISED, command=generate_dataset)
+    b1 = tk.Button(popup, text="Generate Dataset", font=("Arial", 14), bg="#1c92d2", fg="white", command=generate_dataset)
     b1.grid(column=1, row=4, pady=20)
 
 # Function to train the classifier
@@ -154,7 +154,7 @@ def detect_face():
             id, pred = clf.predict(gray_img[y:y + h, x:x + w])
             confidence = int(100 * (1 - pred / 300))
 
-            if confidence > 60:
+            if confidence > 75:
                 name, age, address = get_user_info(id)
                 cv2.putText(img, f"Name: {name}", (x, y - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, color, 1, cv2.LINE_AA)
                 cv2.putText(img, f"Age: {age}", (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.8, color, 1, cv2.LINE_AA)
@@ -189,25 +189,44 @@ def detect_face():
 # Create the main window
 window = tk.Tk()
 window.title("Face Recognition System")
-window.geometry("800x400")
+window.geometry("1000x500")
 window.configure(bg="#a1c4fd")
 
+
+
+
 # Set up a background image
-bg_image = Image.open("background.jpg")
-bg_image = bg_image.resize((800, 400), Image.LANCZOS)
+bg_image = Image.open("images/background.jpeg")
+bg_image = bg_image.resize((1000,500), Image.LANCZOS)
 bg_image = ImageTk.PhotoImage(bg_image)
+
 bg_label = tk.Label(window, image=bg_image)
-bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+bg_label.place(relwidth=1, relheight=1)
+
+
 
 # Button styles
 button_style = {
     "font": ("Arial", 14),
-    "bg": "#1c92d2",
-    "fg": "white",
+    "bg": "black",    # Background color is black
+    "fg": "white",    # Text color is white
     "bd": 3,
     "relief": tk.RAISED
 }
 
-# Buttons
-b1 = tk.Button
+# Generate Dataset button
+b1 = tk.Button(window, text="Generate Dataset", **button_style, command=generate_dataset_popup)
+b1.place(relx=0.5, rely=0.3, anchor=tk.CENTER)
+
+# Train Classifier button
+b2 = tk.Button(window, text="Train Classifier", **button_style, command=train_classifier)
+b2.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+
+# Detect Face button
+b3 = tk.Button(window, text="Detect Face", **button_style, command=detect_face)
+b3.place(relx=0.5, rely=0.7, anchor=tk.CENTER)
+
+
+# Run the main loop
+window.mainloop()
 
