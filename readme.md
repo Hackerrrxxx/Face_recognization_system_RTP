@@ -1,6 +1,7 @@
 # Face Recognition System
 
-![Face Recognition System](https://github.com/Jithendra1101/Face_recognization_system_RTP/images/bgimage1.jpg)
+![gui image](https://github.com/Jithendra1101/Face_recognization_system_RTP/blob/main/images/bgimage1.png)
+
 
 This project is a Python-based face recognition system using OpenCV and tkinter for graphical user interface (GUI).
 
